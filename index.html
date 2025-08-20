@@ -59,7 +59,7 @@
         .progress-bar {
             transition: width 0.3s ease-in-out;
         }
-        label:has(+ .problem-checkbox-custom:checked) {
+        label:has(+ .problem-checkbox-custom:checked) a {
             text-decoration: line-through;
             color: #6B7280; /* text-gray-500 */
         }
@@ -73,38 +73,42 @@
             <p class="text-lg text-gray-400 mt-2">Featuring problems from the <span class="font-bold text-cyan-400">Striver SDE Sheet</span>.</p>
         </header>
 
+        <!-- Week 1 Section -->
         <div class="mb-12">
             <h2 class="text-3xl font-bold text-white mb-6 border-l-4 border-cyan-400 pl-4">Week 1: Foundations & Core Structures</h2>
             <div id="week1-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                </div>
+                <!-- Day cards will be injected here by JavaScript -->
+            </div>
         </div>
 
+        <!-- Week 2 Section -->
         <div>
             <h2 class="text-3xl font-bold text-white mb-6 border-l-4 border-cyan-400 pl-4">Week 2: Advanced Algorithms & Review</h2>
             <div id="week2-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                </div>
+                <!-- Day cards will be injected here by JavaScript -->
+            </div>
         </div>
     </div>
 
     <script>
-        // Data for the timetable - ALIGNED WITH STRIVER SDE SHEET
+        // Data for the timetable - ALIGNED WITH STRIVER SDE SHEET & LEETCODE LINKS
         const schedule = [
             // Week 1
-            { day: "Tuesday", topic: "Arrays & Hashing", focus: "Master basic array manipulation and hashmaps for optimal solutions. These are the building blocks.", problems: ["Set Matrix Zeroes", "Kadane's Algorithm", "Two Sum", "Longest Consecutive Sequence"] },
-            { day: "Wednesday", topic: "Arrays - Two Pointers & Sliding Window", focus: "Learn patterns for efficiently solving array and substring problems with optimal time complexity.", problems: ["3 Sum", "Trapping Rainwater", "Remove Duplicates from Sorted Array", "Longest Substring Without Repeating Characters"] },
-            { day: "Thursday", topic: "Stacks & Queues", focus: "Understand LIFO/FIFO principles and their application in solving complex problems like finding next greater elements.", problems: ["Next Greater Element", "Implement a Queue using Stack", "Valid Parentheses", "Sort a Stack"] },
-            { day: "Friday", topic: "Binary Search", focus: "Master binary search on sorted data and learn to apply it on search spaces for complex problems.", problems: ["Single element in a sorted array", "Search in rotated sorted array", "Median of two sorted arrays", "Allocate minimum number of pages"] },
-            { day: "Saturday", topic: "Trees (Deep Dive)", focus: "A full day dedicated to tree traversals, construction, and solving popular BST problems.", problems: ["Preorder, Inorder, Postorder in One Traversal", "Maximum Path Sum", "Construct Tree from inorder & preorder", "Validate a Binary Search Tree"], isWeekend: true },
-            { day: "Sunday", topic: "Graphs (Deep Dive)", focus: "A full day on graph theory. Solidify your understanding of traversal algorithms and their applications in sorting and pathfinding.", problems: ["BFS in Graph", "DFS in Graph", "Topological Sort (Kahn's Algorithm)", "Dijkstra's Algorithm"], isWeekend: true },
-            { day: "Monday", topic: "Linked Lists", focus: "Cover the most important linked list patterns, including reversal, cycle detection, and merging.", problems: ["Reverse a LinkedList", "Find middle of LinkedList", "Merge two sorted LinkedLists", "Detect a cycle in Linked List"] },
+            { day: "Tuesday", topic: "Arrays & Hashing", focus: "Master basic array manipulation and hashmaps for optimal solutions.", problems: [{name:"Set Matrix Zeroes", url:"https://leetcode.com/problems/set-matrix-zeroes/"}, {name:"Kadane's Algorithm", url:"https://leetcode.com/problems/maximum-subarray/"}, {name:"Two Sum", url:"https://leetcode.com/problems/two-sum/"}, {name:"Longest Consecutive Sequence", url:"https://leetcode.com/problems/longest-consecutive-sequence/"}] },
+            { day: "Wednesday", topic: "Arrays - Two Pointers & Sliding Window", focus: "Learn patterns for efficiently solving array and substring problems.", problems: [{name:"3 Sum", url:"https://leetcode.com/problems/3sum/"}, {name:"Trapping Rainwater", url:"https://leetcode.com/problems/trapping-rain-water/"}, {name:"Remove Duplicates from Sorted Array", url:"https://leetcode.com/problems/remove-duplicates-from-sorted-array/"}, {name:"Longest Substring Without Repeating Characters", url:"https://leetcode.com/problems/longest-substring-without-repeating-characters/"}] },
+            { day: "Thursday", topic: "Stacks & Queues", focus: "Understand LIFO/FIFO principles and their application in complex problems.", problems: [{name:"Next Greater Element II", url:"https://leetcode.com/problems/next-greater-element-ii/"}, {name:"Implement Queue using Stacks", url:"https://leetcode.com/problems/implement-queue-using-stacks/"}, {name:"Valid Parentheses", url:"https://leetcode.com/problems/valid-parentheses/"}, {name:"Min Stack", url:"https://leetcode.com/problems/min-stack/"}] },
+            { day: "Friday", topic: "Binary Search", focus: "Master binary search on sorted data and learn to apply it on search spaces.", problems: [{name:"Single Element in a Sorted Array", url:"https://leetcode.com/problems/single-element-in-a-sorted-array/"}, {name:"Search in Rotated Sorted Array", url:"https://leetcode.com/problems/search-in-rotated-sorted-array/"}, {name:"Median of Two Sorted Arrays", url:"https://leetcode.com/problems/median-of-two-sorted-arrays/"}, {name:"Split Array Largest Sum", url:"https://leetcode.com/problems/split-array-largest-sum/"}] },
+            { day: "Saturday", topic: "Trees (Deep Dive)", focus: "A full day dedicated to tree traversals, construction, and popular BST problems.", problems: [{name:"Maximum Depth of Binary Tree", url:"https://leetcode.com/problems/maximum-depth-of-binary-tree/"}, {name:"Maximum Path Sum", url:"https://leetcode.com/problems/binary-tree-maximum-path-sum/"}, {name:"Construct Tree from Inorder & Preorder", url:"https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"}, {name:"Validate a Binary Search Tree", url:"https://leetcode.com/problems/validate-binary-search-tree/"}], isWeekend: true },
+            { day: "Sunday", topic: "Graphs (Deep Dive)", focus: "A full day on graph theory. Solidify traversal algorithms and their applications.", problems: [{name:"Clone Graph", url:"https://leetcode.com/problems/clone-graph/"}, {name:"Number of Islands", url:"https://leetcode.com/problems/number-of-islands/"}, {name:"Course Schedule", url:"https://leetcode.com/problems/course-schedule/"}, {name:"Network Delay Time", url:"https://leetcode.com/problems/network-delay-time/"}], isWeekend: true },
+            { day: "Monday", topic: "Linked Lists", focus: "Cover the most important linked list patterns, including reversal, cycle detection, and merging.", problems: [{name:"Reverse a LinkedList", url:"https://leetcode.com/problems/reverse-linked-list/"}, {name:"Find middle of LinkedList", url:"https://leetcode.com/problems/middle-of-the-linked-list/"}, {name:"Merge two sorted LinkedLists", url:"https://leetcode.com/problems/merge-two-sorted-lists/"}, {name:"Detect a cycle in Linked List", url:"https://leetcode.com/problems/linked-list-cycle/"}] },
             // Week 2
-            { day: "Tuesday", topic: "Heaps (Priority Queues)", focus: "Learn how to use heaps to efficiently find k-th elements and manage ordered data streams.", problems: ["Kth Largest Element in an Array", "Find Median from a Data Stream", "Merge K Sorted Arrays"] },
-            { day: "Wednesday", topic: "Review: Arrays & Hashing", focus: "Solidify your understanding of core array topics. Redo problems you struggled with and try one new medium one.", problems: ["Pascal's Triangle", "Next Permutation", "4 Sum"] },
-            { day: "Thursday", topic: "Review: Linked Lists & Stacks", focus: "Revisit these topics to ensure you haven't forgotten the patterns. Focus on edge cases.", problems: ["Find starting point of Loop", "Flattening a Linked List", "LRU Cache"] },
-            { day: "Friday", topic: "Review: Trees & Graphs", focus: "A crucial review of the weekend's complex topics. Ensure you understand the patterns for traversals and pathfinding.", problems: ["LCA of a Binary Tree", "Check for Bipartite Graph", "Number of Islands"] },
-            { day: "Saturday", topic: "Recursion & Backtracking", focus: "A full day to master the 'choose, explore, un-choose' pattern to solve problems involving permutations, subsets, and partitioning.", problems: ["Subset Sums", "Combination Sum I", "Palindrome Partitioning", "N-Queens"], isWeekend: true },
-            { day: "Sunday", topic: "Dynamic Programming (Intro)", focus: "A full day on DP. Grasp memoization and tabulation. Focus on classic 1D DP patterns.", problems: ["Maximum Product Subarray", "Longest Increasing Subsequence", "0/1 Knapsack", "Edit Distance"], isWeekend: true },
-            { day: "Monday", topic: "Mock Test & Final Revision", focus: "Take a timed online assessment. Analyze mistakes, review key concepts, and relax. No new topics!", problems: ["Take a mock test", "Review notes", "Relax!"] }
+            { day: "Tuesday", topic: "Heaps (Priority Queues)", focus: "Learn how to use heaps to efficiently find k-th elements and manage ordered data streams.", problems: [{name:"Kth Largest Element in an Array", url:"https://leetcode.com/problems/kth-largest-element-in-an-array/"}, {name:"Find Median from a Data Stream", url:"https://leetcode.com/problems/find-median-from-data-stream/"}, {name:"Merge k Sorted Lists", url:"https://leetcode.com/problems/merge-k-sorted-lists/"}] },
+            { day: "Wednesday", topic: "Review: Arrays & Hashing", focus: "Solidify your understanding of core array topics by tackling these common variations.", problems: [{name:"Pascal's Triangle", url:"https://leetcode.com/problems/pascals-triangle/"}, {name:"Next Permutation", url:"https://leetcode.com/problems/next-permutation/"}, {name:"4 Sum", url:"https://leetcode.com/problems/4sum/"}] },
+            { day: "Thursday", topic: "Review: Linked Lists & Stacks", focus: "Revisit these topics with some more advanced problems to ensure you master the patterns.", problems: [{name:"Find starting point of Loop", url:"https://leetcode.com/problems/linked-list-cycle-ii/"}, {name:"Flatten a Multilevel Doubly Linked List", url:"https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/"}, {name:"LRU Cache", url:"https://leetcode.com/problems/lru-cache/"}] },
+            { day: "Friday", topic: "Review: Trees & Graphs", focus: "A crucial review of the weekend's complex topics before moving on to new ones.", problems: [{name:"LCA of a Binary Tree", url:"https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"}, {name:"Is Graph Bipartite?", url:"https://leetcode.com/problems/is-graph-bipartite/"}, {name:"Rotting Oranges", url:"https://leetcode.com/problems/rotting-oranges/"}] },
+            { day: "Saturday", topic: "Recursion & Backtracking", focus: "A full day to master the 'choose, explore, un-choose' pattern for permutations and subsets.", problems: [{name:"Subsets II", url:"https://leetcode.com/problems/subsets-ii/"}, {name:"Combination Sum", url:"https://leetcode.com/problems/combination-sum/"}, {name:"Palindrome Partitioning", url:"https://leetcode.com/problems/palindrome-partitioning/"}, {name:"N-Queens", url:"https://leetcode.com/problems/n-queens/"}], isWeekend: true },
+            { day: "Sunday", topic: "Dynamic Programming (Intro)", focus: "A full day on DP. Grasp memoization and tabulation with these classic problems.", problems: [{name:"Maximum Product Subarray", url:"https://leetcode.com/problems/maximum-product-subarray/"}, {name:"Longest Increasing Subsequence", url:"https://leetcode.com/problems/longest-increasing-subsequence/"}, {name:"Partition Equal Subset Sum", url:"https://leetcode.com/problems/partition-equal-subset-sum/"}, {name:"Edit Distance", url:"https://leetcode.com/problems/edit-distance/"}], isWeekend: true },
+            { day: "Monday", topic: "Mock Test & Final Revision", focus: "Take a timed online assessment. Analyze mistakes, review key concepts, and relax!", problems: [{name:"Take a mock test", url:"#"}, {name:"Review notes", url:"#"}, {name:"Relax!", url:"#"}] }
         ];
 
         const week1Grid = document.getElementById('week1-grid');
@@ -113,17 +117,22 @@
 
         // Function to create a card element
         function createCard(task, index) {
-            const isCurrentDay = index === 0;
             const card = document.createElement('div');
-            card.className = `task-card bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col justify-between ${task.isWeekend ? 'weekend' : ''} ${isCurrentDay ? 'current-day' : ''}`;
-            card.dataset.cardIndex = index; // Add index for saving/loading progress
+            card.className = `task-card bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col justify-between ${task.isWeekend ? 'weekend' : ''}`;
+            card.dataset.cardIndex = index;
             
-            const problemList = task.problems.map((p, i) => `
-                <li class="flex items-center my-2">
-                    <input type="checkbox" id="task-${index}-problem-${i}" class="problem-checkbox-custom mr-3">
-                    <label for="task-${index}-problem-${i}" class="text-gray-300 cursor-pointer w-full">${p}</label>
-                </li>
-            `).join('');
+            const problemList = task.problems.map((p, i) => {
+                const linkContent = p.url === "#" 
+                    ? `<span class="text-gray-300">${p.name}</span>`
+                    : `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-cyan-400 transition-colors">${p.name}</a>`;
+
+                return `
+                    <li class="flex items-center my-2">
+                        <input type="checkbox" id="task-${index}-problem-${i}" class="problem-checkbox-custom mr-3">
+                        <label for="task-${index}-problem-${i}" class="cursor-pointer w-full">${linkContent}</label>
+                    </li>
+                `;
+            }).join('');
 
             card.innerHTML = `
                 <div>
@@ -149,6 +158,31 @@
             return card;
         }
 
+        // --- UPDATED: Function to highlight the day based on the current date ---
+        function highlightCurrentDay() {
+            document.querySelectorAll('.current-day').forEach(card => card.classList.remove('current-day'));
+
+            const startDate = new Date('2025-08-19T00:00:00');
+            const today = new Date();
+            
+            // Set both dates to the start of the day for an accurate day-only comparison
+            startDate.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+
+            if (today < startDate) return; // Plan hasn't started
+
+            const timeDifference = today.getTime() - startDate.getTime();
+            const dayIndex = Math.floor(timeDifference / (1000 * 3600 * 24));
+
+            const allCards = document.querySelectorAll('.task-card');
+            if (dayIndex >= 0 && dayIndex < allCards.length) {
+                const currentCard = allCards[dayIndex];
+                if (currentCard) {
+                    currentCard.classList.add('current-day');
+                }
+            }
+        }
+
         // Function to update progress for a card
         function updateProgress(card) {
             const checkboxes = card.querySelectorAll('.problem-checkbox-custom');
@@ -170,7 +204,6 @@
         }
 
         // Functions to save and load progress
-
         function saveProgress() {
             const allCards = document.querySelectorAll('.task-card');
             const progressData = {};
@@ -186,10 +219,8 @@
         function loadProgress() {
             const savedProgress = localStorage.getItem(progressKey);
             if (!savedProgress) return;
-
             const progressData = JSON.parse(savedProgress);
             const allCards = document.querySelectorAll('.task-card');
-
             allCards.forEach(card => {
                 const cardIndex = card.dataset.cardIndex;
                 if (progressData[cardIndex]) {
@@ -197,9 +228,10 @@
                     checkboxes.forEach((cb, i) => {
                         cb.checked = progressData[cardIndex][i] || false;
                     });
-                    updateProgress(card); // Update UI after loading state
+                    updateProgress(card);
                 }
             });
+            highlightCurrentDay(); // Highlight based on date after loading progress
         }
 
         // Populate the grids and add event listeners
@@ -210,16 +242,16 @@
             } else {
                 week2Grid.appendChild(card);
             }
-            // Add a single event listener to the card for efficiency
             card.addEventListener('change', (e) => {
                 if (e.target.matches('.problem-checkbox-custom')) {
                     updateProgress(card);
-                    saveProgress(); // Save progress on every change
+                    saveProgress();
+                    // No need to call highlightCurrentDay() here, as the date doesn't change
                 }
             });
         });
         
-        // Load progress when the page loads
+        // Load progress and highlight the correct day when the page loads
         document.addEventListener('DOMContentLoaded', loadProgress);
 
     </script>
