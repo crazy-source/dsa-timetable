@@ -77,12 +77,23 @@
             opacity: 1;
             visibility: visible;
         }
-        /* Difficulty Levels (contrasting, light backgrounds so they pop on dark theme) */
-        .level-easy   { background-color: #DCFCE7; color: #064E3B; } /* pale mint bg / dark green text */
-        .level-medium { background-color: #FFF7ED; color: #92400E; } /* pale amber bg / deep amber text */
-        .level-hard   { background-color: #FFE4E6; color: #7F1D1D; } /* pale rose bg / deep red text */
+        /* Difficulty Levels (strong contrast & easy to identify) */
+        .level-easy {
+            background-color: #22C55E; /* vibrant green */
+            color: #FFFFFF;           /* white text for contrast */
+        }
         
-        /* Shared link styles (kept your layout/shape/spacing) */
+        .level-medium {
+            background-color: #FACC15; /* bright amber/yellow */
+            color: #1F2937;           /* dark gray text for legibility */
+        }
+        
+        .level-hard {
+            background-color: #EF4444; /* bold red */
+            color: #FFFFFF;           /* white text for contrast */
+        }
+        
+        /* Shared link styles */
         .leetcode-link, .striver-link {
             font-size: 0.7rem;
             font-weight: 600;
@@ -93,39 +104,75 @@
             white-space: nowrap;
         }
         
-        /* LeetCode style (dark theme background + warm yellow accent) */
+        /* LeetCode style */
         .leetcode-link {
-            background-color: #111827; /* site theme */
-            color: #FFB020;            /* warm LeetCode-like yellow */
+            background-color: #111827; /* site theme dark */
+            color: #FFB020;            /* LeetCode yellow */
         }
         .leetcode-link:hover {
-            background-color: #1B2732; /* slightly lighter dark for hover */
-            color: #FFF8E6;            /* soft off-white for legibility */
+            background-color: #1F2937; /* slightly lighter dark */
+            color: #FFF8E6;            /* soft off-white */
         }
         
-        /* Striver style (same dark base + Striver orange accent) */
+        /* Striver style */
         .striver-link {
-            background-color: #111827; /* site theme */
+            background-color: #111827; /* site theme dark */
             color: #EA763F;            /* Striver orange */
         }
         .striver-link:hover {
-            background-color: #1B2732; /* slightly lighter dark for hover */
-            color: #FFF6EE;            /* soft off-white to keep orange readable */
+            background-color: #1F2937; /* slightly lighter dark */
+            color: #FFF6EE;            /* soft off-white */
         }
+
 
         .header-button {
             display: inline-block;
             text-decoration: none;
-            color: #E5E7EB; /* text-gray-200 */
-            background-color: #374151; /* bg-gray-700 */
+            color: #E5E7EB;
+            background-color: #374151;
             padding: 0.5rem 1rem;
             border-radius: 9999px;
             font-weight: 600;
             transition: background-color 0.2s, transform 0.2s;
         }
         .header-button:hover {
-            background-color: #4B5563; /* bg-gray-600 */
+            background-color: #4B5563;
             transform: translateY(-2px);
+        }
+
+        /* --- MARQUEE ANIMATION STYLES --- */
+        .problem-label {
+            position: relative;
+            display: block; /* Ensures it takes up the available space */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .problem-name {
+            display: inline-block; /* Allows transform to be applied */
+        }
+
+        /* This class is added by JS only to overflowing elements */
+        .problem-label.is-overflowing:hover .problem-name {
+            animation: marquee var(--animation-duration, 5s) linear infinite;
+            text-overflow: clip; /* Remove ellipsis during animation */
+            padding-right: 2rem; /* Add space at the end of the scroll */
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+            15% {
+                transform: translateX(0%); /* Pause at the beginning */
+            }
+            85% {
+                transform: translateX(var(--scroll-end, -100px));
+            }
+            100% {
+                transform: translateX(var(--scroll-end, -100px)); /* Pause at the end */
+            }
         }
     </style>
 </head>
@@ -165,6 +212,7 @@
             { day: "Saturday", topic: "Trees (Deep Dive)", isWeekend: true, problems: [{name:"Maximum Depth of Binary Tree", url:"https://leetcode.com/problems/maximum-depth-of-binary-tree/", striverUrl:"https://takeuforward.org/data-structure/maximum-depth-of-a-binary-tree/", level: "Easy"}, {name:"Maximum Path Sum", url:"https://leetcode.com/problems/binary-tree-maximum-path-sum/", striverUrl:"https://takeuforward.org/data-structure/maximum-path-sum-in-binary-tree/", level: "Hard"}, {name:"Construct Tree from Inorder & Preorder", url:"https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/", striverUrl:"https://takeuforward.org/data-structure/construct-a-binary-tree-from-inorder-and-preorder-traversal/", level: "Medium"}, {name:"Validate a Binary Search Tree", url:"https://leetcode.com/problems/validate-binary-search-tree/", striverUrl:"https://takeuforward.org/data-structure/validate-a-binary-search-tree/", level: "Medium"}] },
             { day: "Sunday", topic: "Graphs (Deep Dive)", isWeekend: true, problems: [{name:"Clone Graph", url:"https://leetcode.com/problems/clone-graph/", striverUrl:"https://takeuforward.org/data-structure/clone-a-graph-of-a-connected-undirected-graph/", level: "Medium"}, {name:"Number of Islands", url:"https://leetcode.com/problems/number-of-islands/", striverUrl:"https://takeuforward.org/data-structure/number-of-islands/", level: "Medium"}, {name:"Course Schedule", url:"https://leetcode.com/problems/course-schedule/", striverUrl:"https://takeuforward.org/data-structure/course-schedule-i-and-ii-pre-requisite-tasks/", level: "Medium"}, {name:"Dijkstra's Algorithm", url:"https://leetcode.com/problems/network-delay-time/", striverUrl:"https://takeuforward.org/data-structure/g-35-print-shortest-path-dijkstras-algorithm/", level: "Medium"}] },
             { day: "Monday", topic: "Linked Lists", problems: [{name:"Reverse a LinkedList", url:"https://leetcode.com/problems/reverse-linked-list/", striverUrl:"https://takeuforward.org/data-structure/reverse-a-linked-list/", level: "Easy"}, {name:"Find middle of LinkedList", url:"https://leetcode.com/problems/middle-of-the-linked-list/", striverUrl:"https://takeuforward.org/data-structure/find-middle-of-linked-list/", level: "Easy"}, {name:"Merge two sorted LinkedLists", url:"https://leetcode.com/problems/merge-two-sorted-lists/", striverUrl:"https://takeuforward.org/data-structure/merge-two-sorted-linked-lists/", level: "Easy"}, {name:"Detect a cycle in Linked List", url:"https://leetcode.com/problems/linked-list-cycle/", striverUrl:"https://takeuforward.org/data-structure/detect-a-cycle-in-a-linked-list/", level: "Easy"}] },
+            // Week 2
             { day: "Tuesday", topic: "Heaps (Priority Queues)", problems: [{name:"Kth Largest Element in an Array", url:"https://leetcode.com/problems/kth-largest-element-in-an-array/", striverUrl:"https://takeuforward.org/data-structure/kth-largest-smallest-element-in-an-array/", level: "Medium"}, {name:"Find Median from a Data Stream", url:"https://leetcode.com/problems/find-median-from-data-stream/", striverUrl:"https://takeuforward.org/data-structure/median-from-data-stream/", level: "Hard"}, {name:"Merge k Sorted Lists", url:"https://leetcode.com/problems/merge-k-sorted-lists/", striverUrl:"https://takeuforward.org/data-structure/merge-k-sorted-arrays/", level: "Hard"}] },
             { day: "Wednesday", topic: "Review: Arrays & Hashing", problems: [{name:"Pascal's Triangle", url:"https://leetcode.com/problems/pascals-triangle/", striverUrl:"https://takeuforward.org/data-structure/pascals-triangle/", level: "Easy"}, {name:"Next Permutation", url:"https://leetcode.com/problems/next-permutation/", striverUrl:"https://takeuforward.org/data-structure/next_permutation-find-next-lexicographically-greater-permutation/", level: "Medium"}, {name:"4 Sum", url:"https://leetcode.com/problems/4sum/", striverUrl:"https://takeuforward.org/data-structure/4-sum-find-quads-that-add-up-to-a-target-value/", level: "Medium"}] },
             { day: "Thursday", topic: "Review: Linked Lists & Stacks", problems: [{name:"Find starting point of Loop", url:"https://leetcode.com/problems/linked-list-cycle-ii/", striverUrl:"https://takeuforward.org/data-structure/starting-point-of-loop-in-a-linked-list/", level: "Medium"}, {name:"Flattening a Linked List", url:"https://www.geeksforgeeks.org/problems/flattening-a-linked-list/1", striverUrl:"https://takeuforward.org/data-structure/flattening-a-linked-list/", level: "Medium"}, {name:"LRU Cache", url:"https://leetcode.com/problems/lru-cache/", striverUrl:"https://takeuforward.org/data-structure/implement-lru-cache/", level: "Medium"}] },
@@ -184,16 +232,20 @@
             card.dataset.cardIndex = index;
             
             const problemList = task.problems.map((p, i) => {
-                const problemName = `<span class="problem-name text-gray-300">${p.name}</span>`;
                 const leetcodeLink = p.url === "#" ? '' : `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="leetcode-link">LeetCode</a>`;
                 const striverLink = p.striverUrl === "#" ? '' : `<a href="${p.striverUrl}" target="_blank" rel="noopener noreferrer" class="striver-link">TUF</a>`;
                 const levelTag = p.level !== "N/A" ? `<span class="difficulty-tag level-${p.level.toLowerCase()}">${p.level}</span>` : '';
 
+                // --- MODIFICATION FOR MARQUEE ---
+                // The structure is now a flex container that forces a single line.
+                // The label has overflow hidden, and the inner span will be animated by CSS.
                 return `
-                    <li class="flex items-center justify-between my-2">
-                        <div class="flex items-center min-w-0 mr-4">
-                            <input type="checkbox" id="task-${index}-problem-${i}" class="problem-checkbox-custom mr-3">
-                            <label for="task-${index}-problem-${i}" class="problem-label cursor-pointer truncate">${problemName}</label>
+                    <li class="flex items-center justify-between my-2 space-x-4">
+                        <div class="flex items-center min-w-0 flex-1">
+                            <input type="checkbox" id="task-${index}-problem-${i}" class="problem-checkbox-custom mr-3 flex-shrink-0">
+                            <label for="task-${index}-problem-${i}" class="problem-label cursor-pointer">
+                                <span class="problem-name text-gray-300">${p.name}</span>
+                            </label>
                         </div>
                         <div class="flex items-center space-x-2 flex-shrink-0">
                             ${leetcodeLink}
@@ -271,6 +323,30 @@
             highlightCurrentDay();
         }
 
+        // --- NEW FUNCTION TO SETUP MARQUEE ---
+        function setupMarqueeAnimations() {
+            document.querySelectorAll('.problem-label').forEach(label => {
+                const span = label.querySelector('.problem-name');
+                if (span && span.scrollWidth > label.clientWidth) {
+                    // It's overflowing
+                    label.classList.add('is-overflowing');
+                    const overflowAmount = span.scrollWidth - label.clientWidth;
+                    
+                    // Adjust duration based on how much text is hidden for a consistent scroll speed
+                    const duration = (overflowAmount + label.clientWidth) / 50; // 50 pixels per second
+                    
+                    // Set CSS variables for the animation
+                    label.style.setProperty('--scroll-end', `-${overflowAmount}px`);
+                    label.style.setProperty('--animation-duration', `${Math.max(4, duration)}s`); // Minimum 4s duration
+                } else {
+                    // If it's not overflowing, remove the class to prevent hover effect
+                    label.classList.remove('is-overflowing');
+                }
+            });
+        }
+
+
+        // --- RENDER CARDS AND SETUP ANIMATIONS ---
         schedule.forEach((task, index) => {
             const card = createCard(task, index);
             (index < 7 ? week1Grid : week2Grid).appendChild(card);
@@ -282,7 +358,14 @@
             });
         });
         
-        document.addEventListener('DOMContentLoaded', loadProgress);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            setupMarqueeAnimations(); // Setup animations after content is loaded
+        });
+
+        // Re-calculate on window resize to handle responsiveness
+        window.addEventListener('resize', setupMarqueeAnimations);
+
     </script>
 </body>
 </html>
