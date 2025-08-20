@@ -77,10 +77,12 @@
             opacity: 1;
             visibility: visible;
         }
-        .level-easy { background-color: #166534; color: #A7F3D0; }
-        .level-medium { background-color: #9A3412; color: #FDE68A; }
-        .level-hard { background-color: #991B1B; color: #FECACA; }
+        /* Difficulty Levels (contrasting, light backgrounds so they pop on dark theme) */
+        .level-easy   { background-color: #DCFCE7; color: #064E3B; } /* pale mint bg / dark green text */
+        .level-medium { background-color: #FFF7ED; color: #92400E; } /* pale amber bg / deep amber text */
+        .level-hard   { background-color: #FFE4E6; color: #7F1D1D; } /* pale rose bg / deep red text */
         
+        /* Shared link styles (kept your layout/shape/spacing) */
         .leetcode-link, .striver-link {
             font-size: 0.7rem;
             font-weight: 600;
@@ -90,22 +92,27 @@
             transition: background-color 0.2s;
             white-space: nowrap;
         }
+        
+        /* LeetCode style (dark theme background + warm yellow accent) */
         .leetcode-link {
-            background-color: #1A1A1A; /* dark base like LeetCode */
-            color: #9CA3AF; /* muted gray text */
+            background-color: #111827; /* site theme */
+            color: #FFB020;            /* warm LeetCode-like yellow */
+        }
+        .leetcode-link:hover {
+            background-color: #1B2732; /* slightly lighter dark for hover */
+            color: #FFF8E6;            /* soft off-white for legibility */
         }
         
-        .leetcode-link:hover {
-            background-color: #2D2D2D; /* lighter hover */
-            color: #FFA116; /* LeetCode accent yellow */
-        }
+        /* Striver style (same dark base + Striver orange accent) */
         .striver-link {
-            background-color: #374151; /* bg-gray-700 */
-            color: #D1D5DB; /* text-gray-300 */
+            background-color: #111827; /* site theme */
+            color: #EA763F;            /* Striver orange */
         }
         .striver-link:hover {
-            background-color: #4B5563; /* bg-gray-600 */
+            background-color: #1B2732; /* slightly lighter dark for hover */
+            color: #FFF6EE;            /* soft off-white to keep orange readable */
         }
+
         .header-button {
             display: inline-block;
             text-decoration: none;
@@ -183,10 +190,12 @@
                 const levelTag = p.level !== "N/A" ? `<span class="difficulty-tag level-${p.level.toLowerCase()}">${p.level}</span>` : '';
 
                 return `
-                    <li class="flex items-center my-2">
-                        <input type="checkbox" id="task-${index}-problem-${i}" class="problem-checkbox-custom mr-3">
-                        <label for="task-${index}-problem-${i}" class="problem-label cursor-pointer">${problemName}</label>
-                        <div class="ml-auto flex items-center space-x-2">
+                    <li class="flex items-center justify-between my-2">
+                        <div class="flex items-center min-w-0 mr-4">
+                            <input type="checkbox" id="task-${index}-problem-${i}" class="problem-checkbox-custom mr-3">
+                            <label for="task-${index}-problem-${i}" class="problem-label cursor-pointer truncate">${problemName}</label>
+                        </div>
+                        <div class="flex items-center space-x-2 flex-shrink-0">
                             ${leetcodeLink}
                             ${striverLink}
                             ${levelTag}
@@ -277,4 +286,3 @@
     </script>
 </body>
 </html>
-
