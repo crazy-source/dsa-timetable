@@ -63,6 +63,24 @@
             text-decoration: line-through;
             color: #6B7280; /* text-gray-500 */
         }
+        /* NEW STYLES FOR DIFFICULTY TAGS */
+        .difficulty-tag {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-left: auto; /* Pushes the tag to the right */
+        }
+        li:has(.problem-checkbox-custom:checked) .difficulty-tag {
+            opacity: 1;
+            visibility: visible;
+        }
+        .level-easy { background-color: #166534; color: #A7F3D0; } /* bg-green-800 text-green-200 */
+        .level-medium { background-color: #9A3412; color: #FDE68A; } /* bg-orange-800 text-amber-200 */
+        .level-hard { background-color: #991B1B; color: #FECACA; } /* bg-red-800 text-red-200 */
     </style>
 </head>
 <body class="text-gray-200">
@@ -91,24 +109,23 @@
     </div>
 
     <script>
-        // Data for the timetable - ALIGNED WITH STRIVER SDE SHEET & LEETCODE LINKS
+        // UPDATED DATA with problem levels
         const schedule = [
             // Week 1
-            { day: "Tuesday", topic: "Arrays & Hashing", focus: "Master basic array manipulation and hashmaps for optimal solutions.", problems: [{name:"Set Matrix Zeroes", url:"https://leetcode.com/problems/set-matrix-zeroes/"}, {name:"Kadane's Algorithm", url:"https://leetcode.com/problems/maximum-subarray/"}, {name:"Two Sum", url:"https://leetcode.com/problems/two-sum/"}, {name:"Longest Consecutive Sequence", url:"https://leetcode.com/problems/longest-consecutive-sequence/"}] },
-            { day: "Wednesday", topic: "Arrays - Two Pointers & Sliding Window", focus: "Learn patterns for efficiently solving array and substring problems.", problems: [{name:"3 Sum", url:"https://leetcode.com/problems/3sum/"}, {name:"Trapping Rainwater", url:"https://leetcode.com/problems/trapping-rain-water/"}, {name:"Remove Duplicates from Sorted Array", url:"https://leetcode.com/problems/remove-duplicates-from-sorted-array/"}, {name:"Longest Substring Without Repeating Characters", url:"https://leetcode.com/problems/longest-substring-without-repeating-characters/"}] },
-            { day: "Thursday", topic: "Stacks & Queues", focus: "Understand LIFO/FIFO principles and their application in complex problems.", problems: [{name:"Next Greater Element II", url:"https://leetcode.com/problems/next-greater-element-ii/"}, {name:"Implement Queue using Stacks", url:"https://leetcode.com/problems/implement-queue-using-stacks/"}, {name:"Valid Parentheses", url:"https://leetcode.com/problems/valid-parentheses/"}, {name:"Min Stack", url:"https://leetcode.com/problems/min-stack/"}] },
-            { day: "Friday", topic: "Binary Search", focus: "Master binary search on sorted data and learn to apply it on search spaces.", problems: [{name:"Single Element in a Sorted Array", url:"https://leetcode.com/problems/single-element-in-a-sorted-array/"}, {name:"Search in Rotated Sorted Array", url:"https://leetcode.com/problems/search-in-rotated-sorted-array/"}, {name:"Median of Two Sorted Arrays", url:"https://leetcode.com/problems/median-of-two-sorted-arrays/"}, {name:"Split Array Largest Sum", url:"https://leetcode.com/problems/split-array-largest-sum/"}] },
-            { day: "Saturday", topic: "Trees (Deep Dive)", focus: "A full day dedicated to tree traversals, construction, and popular BST problems.", problems: [{name:"Maximum Depth of Binary Tree", url:"https://leetcode.com/problems/maximum-depth-of-binary-tree/"}, {name:"Maximum Path Sum", url:"https://leetcode.com/problems/binary-tree-maximum-path-sum/"}, {name:"Construct Tree from Inorder & Preorder", url:"https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"}, {name:"Validate a Binary Search Tree", url:"https://leetcode.com/problems/validate-binary-search-tree/"}], isWeekend: true },
-            { day: "Sunday", topic: "Graphs (Deep Dive)", focus: "A full day on graph theory. Solidify traversal algorithms and their applications.", problems: [{name:"Clone Graph", url:"https://leetcode.com/problems/clone-graph/"}, {name:"Number of Islands", url:"https://leetcode.com/problems/number-of-islands/"}, {name:"Course Schedule", url:"https://leetcode.com/problems/course-schedule/"}, {name:"Network Delay Time", url:"https://leetcode.com/problems/network-delay-time/"}], isWeekend: true },
-            { day: "Monday", topic: "Linked Lists", focus: "Cover the most important linked list patterns, including reversal, cycle detection, and merging.", problems: [{name:"Reverse a LinkedList", url:"https://leetcode.com/problems/reverse-linked-list/"}, {name:"Find middle of LinkedList", url:"https://leetcode.com/problems/middle-of-the-linked-list/"}, {name:"Merge two sorted LinkedLists", url:"https://leetcode.com/problems/merge-two-sorted-lists/"}, {name:"Detect a cycle in Linked List", url:"https://leetcode.com/problems/linked-list-cycle/"}] },
-            // Week 2
-            { day: "Tuesday", topic: "Heaps (Priority Queues)", focus: "Learn how to use heaps to efficiently find k-th elements and manage ordered data streams.", problems: [{name:"Kth Largest Element in an Array", url:"https://leetcode.com/problems/kth-largest-element-in-an-array/"}, {name:"Find Median from a Data Stream", url:"https://leetcode.com/problems/find-median-from-data-stream/"}, {name:"Merge k Sorted Lists", url:"https://leetcode.com/problems/merge-k-sorted-lists/"}] },
-            { day: "Wednesday", topic: "Review: Arrays & Hashing", focus: "Solidify your understanding of core array topics by tackling these common variations.", problems: [{name:"Pascal's Triangle", url:"https://leetcode.com/problems/pascals-triangle/"}, {name:"Next Permutation", url:"https://leetcode.com/problems/next-permutation/"}, {name:"4 Sum", url:"https://leetcode.com/problems/4sum/"}] },
-            { day: "Thursday", topic: "Review: Linked Lists & Stacks", focus: "Revisit these topics with some more advanced problems to ensure you master the patterns.", problems: [{name:"Find starting point of Loop", url:"https://leetcode.com/problems/linked-list-cycle-ii/"}, {name:"Flatten a Multilevel Doubly Linked List", url:"https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/"}, {name:"LRU Cache", url:"https://leetcode.com/problems/lru-cache/"}] },
-            { day: "Friday", topic: "Review: Trees & Graphs", focus: "A crucial review of the weekend's complex topics before moving on to new ones.", problems: [{name:"LCA of a Binary Tree", url:"https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"}, {name:"Is Graph Bipartite?", url:"https://leetcode.com/problems/is-graph-bipartite/"}, {name:"Rotting Oranges", url:"https://leetcode.com/problems/rotting-oranges/"}] },
-            { day: "Saturday", topic: "Recursion & Backtracking", focus: "A full day to master the 'choose, explore, un-choose' pattern for permutations and subsets.", problems: [{name:"Subsets II", url:"https://leetcode.com/problems/subsets-ii/"}, {name:"Combination Sum", url:"https://leetcode.com/problems/combination-sum/"}, {name:"Palindrome Partitioning", url:"https://leetcode.com/problems/palindrome-partitioning/"}, {name:"N-Queens", url:"https://leetcode.com/problems/n-queens/"}], isWeekend: true },
-            { day: "Sunday", topic: "Dynamic Programming (Intro)", focus: "A full day on DP. Grasp memoization and tabulation with these classic problems.", problems: [{name:"Maximum Product Subarray", url:"https://leetcode.com/problems/maximum-product-subarray/"}, {name:"Longest Increasing Subsequence", url:"https://leetcode.com/problems/longest-increasing-subsequence/"}, {name:"Partition Equal Subset Sum", url:"https://leetcode.com/problems/partition-equal-subset-sum/"}, {name:"Edit Distance", url:"https://leetcode.com/problems/edit-distance/"}], isWeekend: true },
-            { day: "Monday", topic: "Mock Test & Final Revision", focus: "Take a timed online assessment. Analyze mistakes, review key concepts, and relax!", problems: [{name:"Take a mock test", url:"#"}, {name:"Review notes", url:"#"}, {name:"Relax!", url:"#"}] }
+            { day: "Tuesday", topic: "Arrays & Hashing", focus: "Master basic array manipulation and hashmaps for optimal solutions.", problems: [{name:"Set Matrix Zeroes", url:"https://leetcode.com/problems/set-matrix-zeroes/", level: "Medium"}, {name:"Kadane's Algorithm", url:"https://leetcode.com/problems/maximum-subarray/", level: "Medium"}, {name:"Two Sum", url:"https://leetcode.com/problems/two-sum/", level: "Easy"}, {name:"Longest Consecutive Sequence", url:"https://leetcode.com/problems/longest-consecutive-sequence/", level: "Medium"}] },
+            { day: "Wednesday", topic: "Arrays - Two Pointers & Sliding Window", focus: "Learn patterns for efficiently solving array and substring problems.", problems: [{name:"3 Sum", url:"https://leetcode.com/problems/3sum/", level: "Medium"}, {name:"Trapping Rainwater", url:"https://leetcode.com/problems/trapping-rain-water/", level: "Hard"}, {name:"Remove Duplicates from Sorted Array", url:"https://leetcode.com/problems/remove-duplicates-from-sorted-array/", level: "Easy"}, {name:"Longest Substring Without Repeating Characters", url:"https://leetcode.com/problems/longest-substring-without-repeating-characters/", level: "Medium"}] },
+            { day: "Thursday", topic: "Stacks & Queues", focus: "Understand LIFO/FIFO principles and their application in complex problems.", problems: [{name:"Next Greater Element II", url:"https://leetcode.com/problems/next-greater-element-ii/", level: "Medium"}, {name:"Implement Queue using Stacks", url:"https://leetcode.com/problems/implement-queue-using-stacks/", level: "Easy"}, {name:"Valid Parentheses", url:"https://leetcode.com/problems/valid-parentheses/", level: "Easy"}, {name:"Min Stack", url:"https://leetcode.com/problems/min-stack/", level: "Easy"}] },
+            { day: "Friday", topic: "Binary Search", focus: "Master binary search on sorted data and learn to apply it on search spaces.", problems: [{name:"Single Element in a Sorted Array", url:"https://leetcode.com/problems/single-element-in-a-sorted-array/", level: "Medium"}, {name:"Search in Rotated Sorted Array", url:"https://leetcode.com/problems/search-in-rotated-sorted-array/", level: "Medium"}, {name:"Median of Two Sorted Arrays", url:"https://leetcode.com/problems/median-of-two-sorted-arrays/", level: "Hard"}, {name:"Split Array Largest Sum", url:"https://leetcode.com/problems/split-array-largest-sum/", level: "Hard"}] },
+            { day: "Saturday", topic: "Trees (Deep Dive)", focus: "A full day dedicated to tree traversals, construction, and popular BST problems.", problems: [{name:"Maximum Depth of Binary Tree", url:"https://leetcode.com/problems/maximum-depth-of-binary-tree/", level: "Easy"}, {name:"Maximum Path Sum", url:"https://leetcode.com/problems/binary-tree-maximum-path-sum/", level: "Hard"}, {name:"Construct Tree from Inorder & Preorder", url:"https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/", level: "Medium"}, {name:"Validate a Binary Search Tree", url:"https://leetcode.com/problems/validate-binary-search-tree/", level: "Medium"}], isWeekend: true },
+            { day: "Sunday", topic: "Graphs (Deep Dive)", focus: "A full day on graph theory. Solidify traversal algorithms and their applications.", problems: [{name:"Clone Graph", url:"https://leetcode.com/problems/clone-graph/", level: "Medium"}, {name:"Number of Islands", url:"https://leetcode.com/problems/number-of-islands/", level: "Medium"}, {name:"Course Schedule", url:"https://leetcode.com/problems/course-schedule/", level: "Medium"}, {name:"Network Delay Time", url:"https://leetcode.com/problems/network-delay-time/", level: "Medium"}], isWeekend: true },
+            { day: "Monday", topic: "Linked Lists", focus: "Cover the most important linked list patterns, including reversal, cycle detection, and merging.", problems: [{name:"Reverse a LinkedList", url:"https://leetcode.com/problems/reverse-linked-list/", level: "Easy"}, {name:"Find middle of LinkedList", url:"https://leetcode.com/problems/middle-of-the-linked-list/", level: "Easy"}, {name:"Merge two sorted LinkedLists", url:"https://leetcode.com/problems/merge-two-sorted-lists/", level: "Easy"}, {name:"Detect a cycle in Linked List", url:"https://leetcode.com/problems/linked-list-cycle/", level: "Easy"}] },
+            { day: "Tuesday", topic: "Heaps (Priority Queues)", focus: "Learn how to use heaps to efficiently find k-th elements and manage ordered data streams.", problems: [{name:"Kth Largest Element in an Array", url:"https://leetcode.com/problems/kth-largest-element-in-an-array/", level: "Medium"}, {name:"Find Median from a Data Stream", url:"https://leetcode.com/problems/find-median-from-data-stream/", level: "Hard"}, {name:"Merge k Sorted Lists", url:"https://leetcode.com/problems/merge-k-sorted-lists/", level: "Hard"}] },
+            { day: "Wednesday", topic: "Review: Arrays & Hashing", focus: "Solidify your understanding of core array topics by tackling these common variations.", problems: [{name:"Pascal's Triangle", url:"https://leetcode.com/problems/pascals-triangle/", level: "Easy"}, {name:"Next Permutation", url:"https://leetcode.com/problems/next-permutation/", level: "Medium"}, {name:"4 Sum", url:"https://leetcode.com/problems/4sum/", level: "Medium"}] },
+            { day: "Thursday", topic: "Review: Linked Lists & Stacks", focus: "Revisit these topics with some more advanced problems to ensure you master the patterns.", problems: [{name:"Find starting point of Loop", url:"https://leetcode.com/problems/linked-list-cycle-ii/", level: "Medium"}, {name:"Flatten a Multilevel Doubly Linked List", url:"https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/", level: "Medium"}, {name:"LRU Cache", url:"https://leetcode.com/problems/lru-cache/", level: "Medium"}] },
+            { day: "Friday", topic: "Review: Trees & Graphs", focus: "A crucial review of the weekend's complex topics before moving on to new ones.", problems: [{name:"LCA of a Binary Tree", url:"https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/", level: "Medium"}, {name:"Is Graph Bipartite?", url:"https://leetcode.com/problems/is-graph-bipartite/", level: "Medium"}, {name:"Rotting Oranges", url:"https://leetcode.com/problems/rotting-oranges/", level: "Medium"}] },
+            { day: "Saturday", topic: "Recursion & Backtracking", focus: "A full day to master the 'choose, explore, un-choose' pattern for permutations and subsets.", problems: [{name:"Subsets II", url:"https://leetcode.com/problems/subsets-ii/", level: "Medium"}, {name:"Combination Sum", url:"https://leetcode.com/problems/combination-sum/", level: "Medium"}, {name:"Palindrome Partitioning", url:"https://leetcode.com/problems/palindrome-partitioning/", level: "Medium"}, {name:"N-Queens", url:"https://leetcode.com/problems/n-queens/", level: "Hard"}], isWeekend: true },
+            { day: "Sunday", topic: "Dynamic Programming (Intro)", focus: "A full day on DP. Grasp memoization and tabulation with these classic problems.", problems: [{name:"Maximum Product Subarray", url:"https://leetcode.com/problems/maximum-product-subarray/", level: "Medium"}, {name:"Longest Increasing Subsequence", url:"https://leetcode.com/problems/longest-increasing-subsequence/", level: "Medium"}, {name:"Partition Equal Subset Sum", url:"https://leetcode.com/problems/partition-equal-subset-sum/", level: "Medium"}, {name:"Edit Distance", url:"https://leetcode.com/problems/edit-distance/", level: "Medium"}], isWeekend: true },
+            { day: "Monday", topic: "Mock Test & Final Revision", focus: "Take a timed online assessment. Analyze mistakes, review key concepts, and relax!", problems: [{name:"Take a mock test", url:"#", level: "N/A"}, {name:"Review notes", url:"#", level: "N/A"}, {name:"Relax!", url:"#", level: "N/A"}] }
         ];
 
         const week1Grid = document.getElementById('week1-grid');
@@ -125,11 +142,16 @@
                 const linkContent = p.url === "#" 
                     ? `<span class="text-gray-300">${p.name}</span>`
                     : `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-cyan-400 transition-colors">${p.name}</a>`;
+                
+                const levelTag = p.level !== "N/A"
+                    ? `<span class="difficulty-tag level-${p.level.toLowerCase()}">${p.level}</span>`
+                    : '';
 
                 return `
                     <li class="flex items-center my-2">
                         <input type="checkbox" id="task-${index}-problem-${i}" class="problem-checkbox-custom mr-3">
-                        <label for="task-${index}-problem-${i}" class="cursor-pointer w-full">${linkContent}</label>
+                        <label for="task-${index}-problem-${i}" class="cursor-pointer flex items-center w-full">${linkContent}</label>
+                        ${levelTag}
                     </li>
                 `;
             }).join('');
@@ -158,22 +180,15 @@
             return card;
         }
 
-        // --- UPDATED: Function to highlight the day based on the current date ---
         function highlightCurrentDay() {
             document.querySelectorAll('.current-day').forEach(card => card.classList.remove('current-day'));
-
             const startDate = new Date('2025-08-19T00:00:00');
             const today = new Date();
-            
-            // Set both dates to the start of the day for an accurate day-only comparison
             startDate.setHours(0, 0, 0, 0);
             today.setHours(0, 0, 0, 0);
-
-            if (today < startDate) return; // Plan hasn't started
-
+            if (today < startDate) return;
             const timeDifference = today.getTime() - startDate.getTime();
             const dayIndex = Math.floor(timeDifference / (1000 * 3600 * 24));
-
             const allCards = document.querySelectorAll('.task-card');
             if (dayIndex >= 0 && dayIndex < allCards.length) {
                 const currentCard = allCards[dayIndex];
@@ -183,19 +198,15 @@
             }
         }
 
-        // Function to update progress for a card
         function updateProgress(card) {
             const checkboxes = card.querySelectorAll('.problem-checkbox-custom');
             const checkedCount = card.querySelectorAll('.problem-checkbox-custom:checked').length;
             const totalCount = checkboxes.length;
             const percentage = totalCount > 0 ? (checkedCount / totalCount) * 100 : 0;
-
             const progressBar = card.querySelector('.progress-bar');
             const progressText = card.querySelector('.progress-text');
-
             if (progressBar) progressBar.style.width = `${percentage}%`;
             if (progressText) progressText.textContent = `${Math.round(percentage)}%`;
-
             if (percentage === 100) {
                 card.classList.add('completed');
             } else {
@@ -203,7 +214,6 @@
             }
         }
 
-        // Functions to save and load progress
         function saveProgress() {
             const allCards = document.querySelectorAll('.task-card');
             const progressData = {};
@@ -231,10 +241,9 @@
                     updateProgress(card);
                 }
             });
-            highlightCurrentDay(); // Highlight based on date after loading progress
+            highlightCurrentDay();
         }
 
-        // Populate the grids and add event listeners
         schedule.forEach((task, index) => {
             const card = createCard(task, index);
             if (index < 7) {
@@ -246,12 +255,10 @@
                 if (e.target.matches('.problem-checkbox-custom')) {
                     updateProgress(card);
                     saveProgress();
-                    // No need to call highlightCurrentDay() here, as the date doesn't change
                 }
             });
         });
         
-        // Load progress and highlight the correct day when the page loads
         document.addEventListener('DOMContentLoaded', loadProgress);
 
     </script>
